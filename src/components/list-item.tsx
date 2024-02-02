@@ -1,13 +1,14 @@
 import { FC, MouseEventHandler } from 'react'
 
 export interface ListItemProps {
-  text: string
-  onClick?: MouseEventHandler<HTMLLIElement>
+  selected: boolean
+  onClick: MouseEventHandler<HTMLLIElement>
+  children: string
 }
 
-const ListItem: FC<ListItemProps> = ({ text, onClick }) => {
+const ListItem: FC<ListItemProps> = ({ selected, onClick, children: text }) => {
   return (
-    <li className='list-group-item' onClick={onClick}>
+    <li className={`list-group-item ${selected && 'active'}`} onClick={onClick}>
       {text}
     </li>
   )
