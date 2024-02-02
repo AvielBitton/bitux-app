@@ -1,10 +1,9 @@
-import React from 'react'
-import Message from './Message'
+import Alert from './components/alert/alert'
 
 const App = () => {
   return (
     <>
-      <Message />
+      <Alert variant={Alert.Variant.dark}>Check Alert</Alert>
     </>
   )
 }

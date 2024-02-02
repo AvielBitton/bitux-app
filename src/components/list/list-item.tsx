@@ -1,9 +1,9 @@
-import { FC, MouseEventHandler } from 'react'
+import { FC, MouseEventHandler, ReactNode } from 'react'
 
 export interface ListItemProps {
   selected: boolean
   onClick: MouseEventHandler<HTMLLIElement>
-  children: string
+  children: ReactNode
 }
 
 const ListItem: FC<ListItemProps> = ({ selected, onClick, children: text }) => {
