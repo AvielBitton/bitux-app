@@ -1,4 +1,4 @@
-// import React from 'react'
+import React from 'react'
 const Message = () => {
   const name = 'Aviel'
   return <h1> Message {name}</h1>
