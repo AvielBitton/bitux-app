@@ -1,9 +1,9 @@
-import Alert from './components/alert/alert'
+import Button from './components/button/button'
 
 const App = () => {
   return (
     <>
-      <Alert variant={Alert.Variant.dark}>Check Alert</Alert>
+      <Button variant={Button.Variant.primary}>Check Alert</Button>
     </>
   )
 }
