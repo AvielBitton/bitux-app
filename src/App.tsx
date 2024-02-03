@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Alert from './components/alert/alert'
-import Button from './components/button/button'
+import Alert from './components/alert'
+import Button from './components/button'
 
 const App = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false)

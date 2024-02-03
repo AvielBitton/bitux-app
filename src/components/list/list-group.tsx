@@ -38,4 +38,9 @@ const ListGroup: FC<ListGroupProps> = ({ items, title, onSelectItem }) => {
   )
 }
 
-export default ListGroup
+export default Object.assign(ListGroup, {
+  Item: ListItem,
+}) as typeof ListGroup & {
+  ID: string
+  Item: typeof ListItem
+}
