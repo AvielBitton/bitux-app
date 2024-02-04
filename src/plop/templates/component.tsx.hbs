@@ -1,8 +1,10 @@
-import React, { FC, forwardRef } from 'react'
-import { {{pascalCase name}}Props } from './types'
+import { FC, forwardRef } from 'react'
+import { BaseElement } from '../../foundation/types'
 
 const ID = '{{pascalCase name}}'
+interface {{pascalCase name}}Props extends BaseElement {
 
+}
 
 export const {{pascalCase name}}: FC<{{pascalCase name}}Props> = forwardRef<
   HTMLDivElement,
