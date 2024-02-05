@@ -1,0 +1,31 @@
+import { FC, forwardRef } from 'react'
+import { BaseElement } from '../../foundation/types'
+
+const ID = '{{pascalCase name}}'
+interface {{pascalCase name}}Props extends BaseElement {
+
+}
+
+export const {{pascalCase name}}: FC<{{pascalCase name}}Props> = forwardRef<
+  HTMLDivElement,
+  {{pascalCase name}}Props
+>(({ 'data-selector': dataSelector = ID, className, 'aria-label': ariaLabel }, ref) => {
+  return (
+    <div
+      className={className}
+      aria-label={ariaLabel}
+      data-selector={dataSelector}
+      ref={ref}
+    >
+    {{pascalCase name}} Content
+    </div>
+  )
+})
+
+{{pascalCase name}}.displayName = '{{pascalCase name}}'
+
+export default Object.assign({{pascalCase name}}, {
+  ID,
+}) as typeof {{pascalCase name}} & {
+  ID: string
+}

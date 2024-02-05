@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react'
 import { ButtonVariant } from './types'
-
-interface ButtonProps {
+import { BaseElement } from '../../foundation/types'
+interface ButtonProps extends BaseElement {
   className?: string
   'aria-label'?: string
   variant?: ButtonVariant

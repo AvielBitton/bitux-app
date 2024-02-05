@@ -27,6 +27,7 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'no-undef': ['error', { typeof: true }],
+    '@typescript-eslint/no-explicit-any': 'warn',
   },
   globals: {
     module: 'writable',
