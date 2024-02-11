@@ -10,13 +10,12 @@ interface FormProps extends BaseElement {
 }
 
 export const Form: FC<FormProps> = forwardRef<HTMLFormElement, FormProps>(
-  ({ 'data-selector': dataSelector = ID, className, 'aria-label': ariaLabel, children }, ref) => {
+  ({ 'data-selector': dataSelector = ID, className, 'aria-label': ariaLabel, children, onSubmit = () => {} }, ref) => {
     const {
       register,
       handleSubmit,
       formState: { errors },
     } = useForm()
-    const onSubmit = (data: FieldValues) => console.log(data)
 
     const formInputs = Children.map(children, child => {
       if (!isValidElement(child)) {
@@ -50,7 +49,7 @@ export const Form: FC<FormProps> = forwardRef<HTMLFormElement, FormProps>(
         onSubmit={handleSubmit(onSubmit)}
       >
         {formInputs}
-        <Button type='submit'>Submit</Button>
+        <Button type={Button.Type.submit}>Submit</Button>
       </form>
     )
   }

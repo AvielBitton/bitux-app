@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
-import { ButtonVariant } from './types'
+import { FC, ReactNode } from 'react'
+import { ButtonType, ButtonVariant } from './types'
 import { BaseElement } from '../../foundation/types'
 interface ButtonProps extends BaseElement {
   className?: string
@@ -7,7 +7,7 @@ interface ButtonProps extends BaseElement {
   variant?: ButtonVariant
   children?: ReactNode
   onClick?: () => void
-  type?: ButtonHTMLAttributes<HTMLButtonElement>['type']
+  type?: ButtonType
 }
 
 const Button: FC<ButtonProps> = ({
@@ -16,7 +16,7 @@ const Button: FC<ButtonProps> = ({
   children: text,
   className,
   'aria-label': ariaLabel,
-  type = 'button',
+  type = ButtonType.button,
 }) => {
   return (
     <button
@@ -33,7 +33,9 @@ const Button: FC<ButtonProps> = ({
 
 export default Object.assign(Button, {
   Variant: ButtonVariant,
+  Type: ButtonType,
 }) as typeof Button & {
   ID: string
   Variant: typeof ButtonVariant
+  Type: typeof ButtonType
 }
