@@ -1,21 +1,45 @@
-import { FC, forwardRef } from 'react'
+import { FC, forwardRef, Children, isValidElement } from 'react'
 import { BaseElement } from '../../foundation/types'
 import { FieldValues, useForm } from 'react-hook-form'
 import FormInput from './form-input'
+import Button from '../button'
 
 const ID = 'Form'
 interface FormProps extends BaseElement {
-  onSubmit: (data: FieldValues) => void
+  onSubmit?: (data: FieldValues) => void
 }
 
 export const Form: FC<FormProps> = forwardRef<HTMLFormElement, FormProps>(
-  ({ 'data-selector': dataSelector = ID, className, 'aria-label': ariaLabel }, ref) => {
+  ({ 'data-selector': dataSelector = ID, className, 'aria-label': ariaLabel, children }, ref) => {
     const {
       register,
       handleSubmit,
       formState: { errors },
     } = useForm()
     const onSubmit = (data: FieldValues) => console.log(data)
+
+    const formInputs = Children.map(children, child => {
+      if (!isValidElement(child)) {
+        console.error('Skipping: Invalid child element.')
+        return null
+      }
+
+      const { type, props } = child
+      const { name } = props
+      const { ID } = type as { ID?: string }
+
+      if (!ID || ID.toLowerCase() !== 'form-input') {
+        console.error("Skipping: Child element is not a 'FormInput' component with ID 'form-input'.")
+        return null
+      }
+
+      if (!name) {
+        console.error("Skipping: 'FormInput' component lacks a 'name' prop.")
+        return null
+      }
+
+      return <FormInput register={register} errors={errors} {...props} />
+    })
 
     return (
       <form
@@ -25,38 +49,8 @@ export const Form: FC<FormProps> = forwardRef<HTMLFormElement, FormProps>(
         data-selector={dataSelector}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <FormInput
-          register={register}
-          errors={errors}
-          name={'name'}
-          type={FormInput.InputType.text}
-          validation={{
-            required: 'Name is required',
-            minLength: {
-              value: 3,
-              message: 'Name must be at least 3 characters',
-            },
-            validate: {
-              noNumber: value => !/\d/.test(value || '') || 'Name cannot contain numbers',
-            },
-          }}
-        />
-        <FormInput
-          register={register}
-          errors={errors}
-          name={'age'}
-          type={FormInput.InputType.number}
-          validation={{
-            required: 'Age is required',
-            min: {
-              value: 18,
-              message: 'Age must be at least 18',
-            },
-          }}
-        />
-        <button className='btn btn-primary' type='submit'>
-          Submit
-        </button>
+        {formInputs}
+        <Button type='submit'>Submit</Button>
       </form>
     )
   }

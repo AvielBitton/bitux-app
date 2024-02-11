@@ -11,8 +11,8 @@ interface FormInputProps extends BaseElement {
   name: string
   validation?: RegisterOptions
   type?: InputType
-  register: UseFormRegister<FieldValues>
-  errors: FieldErrors<FieldValues>
+  register?: UseFormRegister<FieldValues>
+  errors?: FieldErrors<FieldValues>
 }
 
 export const FormInput: FC<FormInputProps> = forwardRef<HTMLInputElement, FormInputProps>(
@@ -37,7 +37,7 @@ export const FormInput: FC<FormInputProps> = forwardRef<HTMLInputElement, FormIn
           <label htmlFor={name} className='form-label'>
             {capitalizeFirstLetter(name)}
           </label>
-          <input {...register(name, validation)} id={name} type={type} className='form-control' />
+          <input {...register?.(name, validation)} id={name} type={type} className='form-control' />
           {showError && (
             <InputWrapper className='text-danger'>
               <MdErrorOutline />
