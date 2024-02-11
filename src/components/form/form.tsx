@@ -1,13 +1,12 @@
 import { FC, forwardRef } from 'react'
 import { BaseElement } from '../../foundation/types'
-import { capitalizeFirstLetter } from '../../utils'
 import { FieldValues, useForm } from 'react-hook-form'
-import { MdErrorOutline } from 'react-icons/md'
-import { InputWrapper } from './styles'
-import { Person } from './types'
+import FormInput from './form-input'
 
 const ID = 'Form'
-interface FormProps extends BaseElement {}
+interface FormProps extends BaseElement {
+  onSubmit: (data: FieldValues) => void
+}
 
 export const Form: FC<FormProps> = forwardRef<HTMLFormElement, FormProps>(
   ({ 'data-selector': dataSelector = ID, className, 'aria-label': ariaLabel }, ref) => {
@@ -15,7 +14,7 @@ export const Form: FC<FormProps> = forwardRef<HTMLFormElement, FormProps>(
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm<Person>()
+    } = useForm()
     const onSubmit = (data: FieldValues) => console.log(data)
 
     return (
@@ -26,55 +25,35 @@ export const Form: FC<FormProps> = forwardRef<HTMLFormElement, FormProps>(
         data-selector={dataSelector}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className='mb-3'>
-          <label htmlFor='name' className='form-label'>
-            {capitalizeFirstLetter('name')}
-          </label>
-          <input
-            {...register('name', {
-              required: 'Name is required',
-              minLength: {
-                value: 3,
-                message: 'Name must be at least 3 characters',
-              },
-              validate: {
-                noNumber: value => !/\d/.test(value || '') || 'Name cannot contain numbers',
-              },
-            })}
-            id='name'
-            type='text'
-            className='form-control'
-          />
-          {errors?.['name']?.message && (
-            <InputWrapper className='text-danger'>
-              <MdErrorOutline />
-              {`${errors?.['name']?.message as string}`}
-            </InputWrapper>
-          )}
-        </div>
-        <div className='mb-3'>
-          <label htmlFor='age' className='form-label'>
-            {capitalizeFirstLetter('age')}
-          </label>
-          <input
-            {...register('age', {
-              required: 'Age is required',
-              min: {
-                value: 18,
-                message: 'Age must be at least 18',
-              },
-            })}
-            id='age'
-            type='number'
-            className='form-control'
-          />{' '}
-          {errors?.['age']?.message && (
-            <InputWrapper className='text-danger'>
-              <MdErrorOutline />
-              {`${errors?.['age']?.message as string}`}
-            </InputWrapper>
-          )}
-        </div>
+        <FormInput
+          register={register}
+          errors={errors}
+          name={'name'}
+          type={FormInput.InputType.text}
+          validation={{
+            required: 'Name is required',
+            minLength: {
+              value: 3,
+              message: 'Name must be at least 3 characters',
+            },
+            validate: {
+              noNumber: value => !/\d/.test(value || '') || 'Name cannot contain numbers',
+            },
+          }}
+        />
+        <FormInput
+          register={register}
+          errors={errors}
+          name={'age'}
+          type={FormInput.InputType.number}
+          validation={{
+            required: 'Age is required',
+            min: {
+              value: 18,
+              message: 'Age must be at least 18',
+            },
+          }}
+        />
         <button className='btn btn-primary' type='submit'>
           Submit
         </button>
