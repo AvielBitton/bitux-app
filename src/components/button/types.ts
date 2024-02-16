@@ -8,3 +8,9 @@ export enum ButtonVariant {
   light = 'light',
   dark = 'dark',
 }
+
+export enum ButtonType {
+  submit = 'submit',
+  reset = 'reset',
+  button = 'button',
+}

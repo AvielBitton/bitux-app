@@ -1,6 +1,7 @@
 module.exports = {
   env: {
     browser: true,
+    node: true,
   },
   parser: '@typescript-eslint/parser',
   extends: [
@@ -28,6 +29,9 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'no-undef': ['error', { typeof: true }],
     '@typescript-eslint/no-explicit-any': 'warn',
+    'import/no-named-as-default': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
+    'no-console': ['warn', { allow: ['error'] }],
   },
   globals: {
     module: 'writable',
