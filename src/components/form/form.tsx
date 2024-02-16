@@ -59,6 +59,8 @@ Form.displayName = 'Form'
 
 export default Object.assign(Form, {
   ID,
+  Input: FormInput,
 }) as typeof Form & {
   ID: string
+  Input: typeof FormInput
 }

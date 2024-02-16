@@ -30,7 +30,6 @@ export const FormInput: FC<FormInputProps> = forwardRef<HTMLInputElement, FormIn
     ref
   ) => {
     const showError = errors?.[name]?.message
-
     return (
       <div className={className} aria-label={ariaLabel} data-selector={dataSelector} ref={ref}>
         <div className='mb-3'>
@@ -54,8 +53,8 @@ FormInput.displayName = 'FormInput'
 
 export default Object.assign(FormInput, {
   ID,
-  InputType: InputType,
+  Type: InputType,
 }) as typeof FormInput & {
   ID: string
-  InputType: typeof InputType
+  Type: typeof InputType
 }
