@@ -1,27 +1,20 @@
-import { useState } from 'react'
-import Form from './components/form'
-import Button from './components/button'
+import { ChangeEvent, useState } from 'react'
 import './App.css'
+import Select from './components/select'
+import Form from './components/form'
 import { FieldValues } from 'react-hook-form'
 import { JSONObject } from './foundation/types'
 
+const options = ['Option 1', 'Option 2', 'Option 3']
+
 interface FormData {
-  Description: string
-  Amount: string
-  Category: string
-}
-
-const optionsList = ['Option 1', 'Option 2', 'Option 3']
-
-const validateOption = (value: string) => {
-  if (!optionsList.includes(value)) {
-    return 'Please select a valid option'
-  }
-  return true
+  description: string
+  amount: string
+  category: 'All' | 'Option 1' | 'Option 2' | 'Option 3'
 }
 
 const formInputs: { [index: string]: JSONObject } = {
-  Description: {
+  description: {
     type: Form.Input.Type.text,
     validation: {
       required: 'Name is required',
@@ -34,7 +27,7 @@ const formInputs: { [index: string]: JSONObject } = {
       },
     },
   },
-  Amount: {
+  amount: {
     type: Form.Input.Type.number,
     validation: {
       required: 'Amount is required',
@@ -44,30 +37,34 @@ const formInputs: { [index: string]: JSONObject } = {
       },
     },
   },
-  Category: {
-    list: optionsList,
+  category: {
+    list: options.filter(option => option !== 'All'),
     validation: {
       required: 'Category is required',
-      validate: validateOption,
     },
   },
 }
 
 const App = () => {
-  const [dataTable, setDataTable] = useState<FormData[]>([])
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(options[0])
+  const [data, setData] = useState<FormData[]>([{ description: 'description', amount: 'amount', category: 'Option 1' }])
 
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const {
+      target: { value: selectedValue },
+    } = event
+    setSelectedOption(selectedValue)
+  }
   const handleSubmit = (formData: FormData) => {
-    setDataTable(currentDataTable => {
-      const isDuplicate = currentDataTable.some(item => item.Description === formData.Description)
+    console.log(formData)
+
+    setData(currentDataTable => {
+      const isDuplicate = currentDataTable.some(item => item.description === formData.description)
       if (isDuplicate) {
         return currentDataTable
       }
       return [...currentDataTable, formData]
     })
-  }
-
-  const handleDelete = (description: string) => {
-    setDataTable(prevData => prevData.filter(item => item.Description !== description))
   }
 
   return (
@@ -77,31 +74,7 @@ const App = () => {
           <Form.Input key={input} name={input} {...formInputs[input]} />
         ))}
       </Form>
-
-      <table className='table'>
-        <thead className='thead-light'>
-          <tr>
-            {Object.keys(formInputs).map(input => (
-              <th key={input}>{input}</th>
-            ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {dataTable.map((item, index) => (
-            <tr key={index}>
-              {Object.values(item).map((td, tdIndex) => (
-                <td key={tdIndex}>{td}</td>
-              ))}
-              <td>
-                <Button variant={Button.Variant.danger} onClick={() => handleDelete(item.Description)}>
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Select className='app-form' label='chose your category' options={options} onChange={handleChange} />
     </>
   )
 }
