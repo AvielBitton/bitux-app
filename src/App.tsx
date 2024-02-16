@@ -10,7 +10,7 @@ const options = ['Option 1', 'Option 2', 'Option 3']
 interface FormData {
   description: string
   amount: string
-  category: 'All' | 'Option 1' | 'Option 2' | 'Option 3'
+  category: 'Option 1' | 'Option 2' | 'Option 3'
 }
 
 const formInputs: { [index: string]: JSONObject } = {
