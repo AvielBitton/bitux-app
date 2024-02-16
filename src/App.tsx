@@ -38,7 +38,7 @@ const formInputs: { [index: string]: JSONObject } = {
     },
   },
   category: {
-    list: options.filter(option => option !== 'All'),
+    list: options,
     validation: {
       required: 'Category is required',
     },
