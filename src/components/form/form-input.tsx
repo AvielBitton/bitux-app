@@ -13,6 +13,7 @@ interface FormInputProps extends BaseElement {
   type?: InputType
   register?: UseFormRegister<FieldValues>
   errors?: FieldErrors<FieldValues>
+  list?: string[]
 }
 
 export const FormInput: FC<FormInputProps> = forwardRef<HTMLInputElement, FormInputProps>(
@@ -26,6 +27,7 @@ export const FormInput: FC<FormInputProps> = forwardRef<HTMLInputElement, FormIn
       name,
       validation,
       type = InputType.text,
+      list,
     },
     ref
   ) => {
@@ -36,7 +38,15 @@ export const FormInput: FC<FormInputProps> = forwardRef<HTMLInputElement, FormIn
           <label htmlFor={name} className='form-label'>
             {capitalizeFirstLetter(name)}
           </label>
-          <input {...register?.(name, validation)} id={name} type={type} className='form-control' />
+          {list ? (
+            <select {...register?.(name, validation)} className='form-control'>
+              {list.map((option, index) => (
+                <option key={index}>{option}</option>
+              ))}
+            </select>
+          ) : (
+            <input {...register?.(name, validation)} id={name} type={type} className='form-control' />
+          )}
           {showError && (
             <InputWrapper className='text-danger'>
               <MdErrorOutline />
