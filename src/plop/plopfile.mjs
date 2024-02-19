@@ -29,6 +29,11 @@ const generateComponent = plop => {
         path: '../components/{{kebabCase name}}/types.ts',
         templateFile: 'templates/types.ts.hbs',
       },
+      {
+        type: 'add',
+        templateFile: 'templates/tests.tsx.hbs',
+        path: `../components/{{kebabCase name}}/__dev__/{{kebabCase name}}.tests.tsx`,
+      },
     ],
   })
 }

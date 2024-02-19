@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    'cypress/globals': true,
   },
   parser: '@typescript-eslint/parser',
   extends: [
@@ -11,8 +12,10 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
+    'eslint:recommended',
+    'plugin:cypress/recommended',
   ],
-  plugins: ['@typescript-eslint', 'react', 'import'],
+  plugins: ['@typescript-eslint', 'react', 'import', 'cypress'],
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
