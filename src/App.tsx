@@ -1,82 +1,67 @@
-import { ChangeEvent, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
-import Select from './components/select'
-import Form from './components/form'
-import { FieldValues } from 'react-hook-form'
-import { JSONObject } from './foundation/types'
+import Button from './components/button'
+import { User, getAllUser } from './services/user-service'
+import { AxiosError } from './services/api-client'
 
-const options = ['Option 1', 'Option 2', 'Option 3']
-
-interface FormData {
-  description: string
-  amount: string
-  category: 'Option 1' | 'Option 2' | 'Option 3'
-}
-
-const formInputs: { [index: string]: JSONObject } = {
-  description: {
-    type: Form.Input.Type.text,
-    validation: {
-      required: 'Name is required',
-      minLength: {
-        value: 3,
-        message: 'Name must be at least 3 characters',
-      },
-      validate: {
-        noNumber: (value: string) => !/\d/.test(value || '') || 'Name cannot contain numbers',
-      },
-    },
-  },
-  amount: {
-    type: Form.Input.Type.number,
-    validation: {
-      required: 'Amount is required',
-      min: {
-        value: 10,
-        message: 'Amount must be at least 10',
-      },
-    },
-  },
-  category: {
-    list: options,
-    validation: {
-      required: 'Category is required',
-    },
-  },
-}
 
 const App = () => {
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(options[0])
-  const [data, setData] = useState<FormData[]>([{ description: 'description', amount: 'amount', category: 'Option 1' }])
+  const [users, setUsers] = useState<User[]>()
+  const [error, setError] = useState<AxiosError | undefined>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const {
-      target: { value: selectedValue },
-    } = event
-    setSelectedOption(selectedValue)
-  }
-  const handleSubmit = (formData: FormData) => {
-    console.log(formData)
-
-    setData(currentDataTable => {
-      const isDuplicate = currentDataTable.some(item => item.description === formData.description)
-      if (isDuplicate) {
-        return currentDataTable
+  useEffect(() => {
+    setIsLoading(true)
+    const fetchUserData = async () => {
+      try {
+        const response = await getAllUser()
+        const userData = response.data
+        setUsers(userData)
+      } catch (error) {
+        setError(error as AxiosError)
+      } finally {
+        setIsLoading(false)
       }
-      return [...currentDataTable, formData]
-    })
+    }
+
+    fetchUserData()
+
+    return () => {
+      // Cleanup code can be added here if necessary
+    }
+  }, [])
+
+  if (isLoading) {
+    return <div className='spinner-border' />
+  }
+
+  if (error) {
+    return <p className='danger-text'>{error.message}</p>
   }
 
   return (
-    <>
-      <Form onSubmit={handleSubmit as (data: FieldValues) => void} className='app-form'>
-        {Object.keys(formInputs).map(input => (
-          <Form.Input key={input} name={input} {...formInputs[input]} />
-        ))}
-      </Form>
-      <Select className='app-form' label='chose your category' options={options} onChange={handleChange} />
-    </>
+    <ul className='list-group'>
+      {users?.map(currentUser => (
+        <li key={currentUser.id} className='list-group-item d-flex justify-content-between'>
+          {currentUser.name}
+          <Button
+            variant={Button.Variant.danger}
+            onClick={() => {
+              setUsers(prevUsers => (prevUsers as User[]).filter(user => user.id !== currentUser.id))
+            }}
+          >
+            Remove
+          </Button>
+        </li>
+      ))}
+    </ul>
   )
 }
+
+const nested = [{ id: 1, name: 'item', children: [{ id: 2, name: 'item' }] }]
+const flat = [
+  { id: 1, name: 'item' },
+  { id: 2, name: 'item', parent: 1 },
+]
 
 export default App
