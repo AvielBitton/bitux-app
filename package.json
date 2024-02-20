@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "@cypress/react18": "^2.0.0",
-    "@cypress/react": "^8.0.0",
     "@types/node": "^20.11.17",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
