@@ -1,0 +1,11 @@
+/// <reference types="cypress" />
+import React from 'react'
+import { mount } from '@cypress/react'
+import {{pascalCase name}} from '../'
+
+describe('{{pascalCase name}}', () => {
+  it('With data selector', () => {
+    mount(<{{pascalCase name}} data-selector='my' />)
+    cy.get('[data-selector=my]').should('exist')
+  })
+})
