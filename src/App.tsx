@@ -10,7 +10,7 @@ const App = () => {
         base: `"nav" "main"`,
         large: `"nav nav" "aside main"`,
       }} */}
-      <GridItem area={'nav'}>
+      <GridItem area={'nav'} bg='green'>
         <Navbar />
       </GridItem>
       <Show above='lg'>
