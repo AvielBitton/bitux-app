@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 import React from 'react'
-import { mount } from '@cypress/react'
+import { mount } from '@cypress/react18'
 import Navbar from '../'
 
-describe('Navbarr', () => {
+describe('Navbr', () => {
   it('With data selector', () => {
-    mount(<Navbar data-selector='my' />)
-    cy.get('[data-selector=my]').should('exist')
+    mount(<Navbar />)
+    cy.get('[data-selector=navbar]').should('exist')
   })
 })
