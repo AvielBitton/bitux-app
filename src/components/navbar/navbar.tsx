@@ -1,7 +1,7 @@
 import { FC, forwardRef } from 'react'
 import { BaseElement } from '../../foundation/types'
 import { HStack, Image, Text } from '@chakra-ui/react'
-import logo from '../../assets/react.svg'
+import logo from '../../assets/bitux.svg'
 import { capitalizeFirstLetter } from '../../utils'
 const ID = 'navbar'
 interface NavbarProps extends BaseElement {}
