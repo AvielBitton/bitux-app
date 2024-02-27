@@ -1,13 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
-import theme from './theme'
+import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react'
 import App from './App'
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <App />
-    </ChakraProvider>
-  </React.StrictMode>
-)
+import useInitialColorMode from './hooks/use-color-mode.hook'
+
+const Root = () => {
+  const colorMode = useInitialColorMode('chakra-ui-color-mode')
+
+  return (
+    <React.StrictMode>
+      <ChakraProvider theme={extendTheme({ config: { initialColorMode: colorMode } })}>
+        <ColorModeScript initialColorMode={colorMode} />
+        <App />
+      </ChakraProvider>
+    </React.StrictMode>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<Root />)
