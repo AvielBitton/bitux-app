@@ -5,11 +5,6 @@ import Navbar from './components/navbar'
 const App = () => {
   return (
     <Grid templateAreas={{ base: `"nav" "main"`, lg: '"nav nav" "aside main"' }}>
-      {/* templateAreas=
-      {{
-        base: `"nav" "main"`,
-        large: `"nav nav" "aside main"`,
-      }} */}
       <GridItem area={'nav'} bg='green'>
         <Navbar />
       </GridItem>
